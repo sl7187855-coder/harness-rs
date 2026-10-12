@@ -1,0 +1,96 @@
+name: Harness-RS CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  linux-x86_64:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    env:
+      CARGO_BUILD_JOBS: 2
+      CARGO_PROFILE_RELEASE_LTO: off
+      CARGO_PROFILE_RELEASE_CODEGEN_UNITS: 16
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Formatting
+        run: cargo fmt --check
+
+      - name: Rust unit, integration and schema tests
+        run: cargo test --locked --all-targets
+
+      - name: Clippy
+        run: cargo clippy --locked --all-targets
+
+      - name: Build release for generic x86-64
+        run: cargo build --locked --release --target x86_64-unknown-linux-gnu
+
+      - name: Validate scripts and HUD JavaScript
+        run: |
+          python3 -m py_compile tests/e2e/*.py scripts/check_inline_js.py
+          bash -n scripts/deploy.sh
+          sh -n scripts/test.sh
+          python3 scripts/check_inline_js.py web/thomas-hud.html
+
+      - name: Verify release artifact and CPU baseline
+        shell: bash
+        run: |
+          BIN=target/x86_64-unknown-linux-gnu/release/harness-rs
+          test -x "$BIN"
+          file "$BIN"
+          grep -Fq 'target-cpu=x86-64' .cargo/config.toml
+          file "$BIN" | grep -q 'ELF 64-bit.*x86-64'
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: harness-rs-linux-x86_64-baseline
+          path: target/x86_64-unknown-linux-gnu/release/harness-rs
+          if-no-files-found: error
+          retention-days: 14
+
+  android-mobile:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: mobile/relay/package-lock.json
+      - name: Validate mobile relay and MCP package
+        working-directory: mobile/relay
+        run: |
+          npm ci --ignore-scripts
+          node --check server/server.js
+          node --check server/public-ws-proxy.js
+          node --check mcp-server.mjs
+          node --check scripts/setup-auth.mjs
+          npm audit --omit=dev --audit-level=moderate
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: android-actions/setup-android@v3
+      - name: Install Android SDK packages
+        run: sdkmanager "platforms;android-35" "build-tools;35.0.0"
+      - name: Build Thomas Mobile Agent 0.5.3
+        working-directory: mobile/agent-android
+        run: ./gradlew --no-daemon --max-workers=1 assembleDebug
+      - uses: actions/upload-artifact@v4
+        with:
+          name: thomas-mobile-agent-0.5.3-debug
+          path: mobile/agent-android/app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error
+          retention-days: 14

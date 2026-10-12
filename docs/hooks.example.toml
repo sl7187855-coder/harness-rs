@@ -1,0 +1,16 @@
+# User-level hooks: $HARNESS_HOME/hooks.toml
+# Project-level hooks: <workspace>/.harness/hooks.toml
+# Commands run without a shell? They are passed to bash -lc inside a read-only sandbox.
+# All hook output is bounded; security events deny on errors or invalid JSON.
+
+[[hooks]]
+event = "pre_tool_use"
+matcher = "^Bash$"
+command = "/usr/bin/python3 /var/lib/harness-rs/workspace/hooks/check_command.py"
+timeout_seconds = 5
+
+[[hooks]]
+event = "post_tool_use"
+matcher = "^(Read|Edit|ApplyPatch)$"
+command = "/usr/bin/python3 /var/lib/harness-rs/workspace/hooks/audit_tool.py"
+timeout_seconds = 5

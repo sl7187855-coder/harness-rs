@@ -1,0 +1,6 @@
+[build]
+jobs = 2
+rustflags = ["-C", "target-cpu=x86-64"]
+
+[net]
+retry = 2

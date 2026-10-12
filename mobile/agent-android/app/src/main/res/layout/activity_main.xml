@@ -1,0 +1,157 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="#080808"
+    android:fillViewport="true"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:orientation="vertical"
+        android:padding="22dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:text="T"
+            android:textColor="#ffffff"
+            android:textSize="54sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:background="@drawable/thomas_t"
+            android:layout_width="86dp"
+            android:layout_height="86dp" />
+
+        <TextView
+            android:text="Thomas"
+            android:textColor="#ffffff"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:layout_marginTop="18dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:text="Acesso remoto seguro • Internet direta"
+            android:textColor="#727272"
+            android:textSize="11sp"
+            android:layout_marginTop="4dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:id="@+id/server"
+            android:hint="Servidor WSS"
+            android:textColor="#ffffff"
+            android:textColorHint="#555555"
+            android:singleLine="true"
+            android:inputType="textUri"
+            android:backgroundTint="#333333"
+            android:layout_marginTop="22dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:id="@+id/username"
+            android:hint="Usuário"
+            android:textColor="#ffffff"
+            android:textColorHint="#555555"
+            android:singleLine="true"
+            android:inputType="textPersonName"
+            android:backgroundTint="#333333"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:id="@+id/password"
+            android:hint="Senha"
+            android:textColor="#ffffff"
+            android:textColorHint="#555555"
+            android:singleLine="true"
+            android:inputType="textPassword"
+            android:backgroundTint="#333333"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/login"
+            android:text="Entrar e conectar"
+            android:textAllCaps="false"
+            android:layout_marginTop="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:text="Permissões do Thomas"
+            android:textColor="#dddddd"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:layout_marginTop="24dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:text="O Android só concede cada permissão após sua autorização. Algumas funções avançadas ficam em Configurações do sistema."
+            android:textColor="#666666"
+            android:textSize="9sp"
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/permissions"
+            android:text="Autorizar permissões úteis"
+            android:textAllCaps="false"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/accessibility"
+            android:text="Ativar Acessibilidade do Thomas"
+            android:textAllCaps="false"
+            android:layout_marginTop="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/overlay"
+            android:text="Permitir sobreposição"
+            android:textAllCaps="false"
+            android:layout_marginTop="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/battery"
+            android:text="Liberar otimização de bateria"
+            android:textAllCaps="false"
+            android:layout_marginTop="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/capture"
+            android:text="Autorizar captura da tela"
+            android:textAllCaps="false"
+            android:layout_marginTop="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/status"
+            android:text="Desconectado"
+            android:textColor="#8a8a8a"
+            android:textSize="10sp"
+            android:layout_marginTop="18dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/logout"
+            android:text="Sair"
+            android:textAllCaps="false"
+            android:layout_marginTop="14dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+</ScrollView>

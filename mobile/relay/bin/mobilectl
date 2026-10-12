@@ -1,0 +1,80 @@
+#!/usr/bin/env node
+const [, , rawAction, ...args] = process.argv;
+const API = process.env.THOMAS_MOBILE_API || "http://127.0.0.1:3195";
+
+function usage() {
+  console.error("usage: mobilectl devices | <action> <deviceId> [args...]");
+  process.exit(2);
+}
+
+async function api(path, init) {
+  const res = await fetch(API + path, init);
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(data.error || `HTTP ${res.status}`);
+  return data;
+}
+
+function parseMaybeJson(value) {
+  if (value == null) return undefined;
+  try { return JSON.parse(value); } catch { return value; }
+}
+
+async function command(action, deviceId, params) {
+  const data = await api("/command", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ deviceId, action, params })
+  });
+  console.log(JSON.stringify(data.result ?? data, null, 2));
+}
+if (!rawAction) usage();
+
+(async () => {
+  if (rawAction === "health") {
+    console.log(JSON.stringify(await api("/health"), null, 2));
+    return;
+  }
+  if (rawAction === "devices") {
+    console.log(JSON.stringify(await api("/devices"), null, 2));
+    return;
+  }
+  const deviceId = args.shift();
+  if (!deviceId) usage();
+
+  switch (rawAction) {
+    case "observe":
+    case "screenshot":
+    case "back":
+    case "home":
+    case "recents":
+      await command(rawAction, deviceId, {});
+      break;
+    case "tap":
+      if (args.length < 2) throw new Error("tap needs x y");
+      await command("tap", deviceId, { x: Number(args[0]), y: Number(args[1]) });
+      break;
+    case "swipe":
+      if (args.length < 4) throw new Error("swipe needs x1 y1 x2 y2 [durationMs]");
+      await command("swipe", deviceId, {
+        x1:Number(args[0]), y1:Number(args[1]),
+        x2:Number(args[2]), y2:Number(args[3]), durationMs:Number(args[4] || 350)
+      });
+      break;
+    case "type":
+      await command("type", deviceId, { text: args.join(" ") });
+      break;
+    case "launch":
+      if (!args[0]) throw new Error("launch needs a package name");
+      await command("launch", deviceId, { packageName: args[0] });
+      break;
+    case "raw":
+      if (!args[0]) throw new Error("raw needs a JSON object");
+      await command("raw", deviceId, parseMaybeJson(args.join(" ")));
+      break;
+    default:
+      usage();
+  }
+})().catch(err => {
+  console.error("ERROR:", err.message);
+  process.exit(1);
+});

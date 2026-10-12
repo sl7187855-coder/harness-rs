@@ -1,0 +1,3 @@
+No server certificate is embedded in this public build.
+The app uses Android system CA trust by default.
+For private PKI, provision a reviewed public CA certificate at build time.

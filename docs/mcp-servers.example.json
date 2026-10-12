@@ -1,0 +1,10 @@
+{
+  "servers": [
+    {
+      "name": "workspace-notes",
+      "command": "/usr/bin/python3",
+      "args": ["/var/lib/harness-rs/workspace/mcp_notes_server.py"],
+      "enabled": true
+    }
+  ]
+}

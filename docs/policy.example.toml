@@ -1,0 +1,17 @@
+# Copy to $HARNESS_HOME/policy.toml (trusted user policy) or
+# <workspace>/.harness/policy.toml (project policy; cannot silently allow side effects).
+
+[[rules]]
+tool = "Bash"
+match = "rm -rf *"
+action = "deny"
+
+[[rules]]
+tool = "Bash"
+match = "git push*"
+action = "ask"
+
+[[rules]]
+tool = "Edit"
+match = "**/.env*"
+action = "deny"

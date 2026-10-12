@@ -1,0 +1,1483 @@
+[
+  {
+    "function": {
+      "description": "Read a file as numbered lines; supports offset and limit. Never read a directory.",
+      "name": "Read",
+      "parameters": {
+        "additionalProperties": false,
+        "properties": {
+          "limit": {
+            "default": 300,
+            "maximum": 2000,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "offset": {
+            "default": 1,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "path": {
+            "description": "Project-relative path or absolute path inside workspace",
+            "type": "string"
+          }
+        },
+        "required": [
+          "path"
+        ],
+        "type": "object"
+      }
+    },
+    "group": "files",
+    "name": "Read",
+    "state": "ready"
+  },
+  {
+    "function": {
+      "description": "Create or atomically replace a file. Existing files must be read in this session first.",
+      "name": "Write",
+      "parameters": {
+        "additionalProperties": false,
+        "properties": {
+          "content": {
+            "type": "string"
+          },
+          "create_dirs": {
+            "default": false,
+            "type": "boolean"
+          },
+          "path": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "path",
+          "content"
+        ],
+        "type": "object"
+      }
+    },
+    "group": "files",
+    "name": "Write",
+    "state": "ready"
+  },
+  {
+    "function": {
+      "description": "Replace an exact unique text fragment. Requires a prior Read of the file and exactly one match unless replace_all is true.",
+      "name": "Edit",
+      "parameters": {
+        "additionalProperties": false,
+        "properties": {
+          "new_string": {
+            "type": "string"
+          },
+          "old_string": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "path": {
+            "type": "string"
+          },
+          "replace_all": {
+            "default": false,
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "path",
+          "old_string",
+          "new_string"
+        ],
+        "type": "object"
+      }
+    },
+    "group": "files",
+    "name": "Edit",
+    "state": "ready"
+  },
+  {
+    "function": {
+      "description": "Edit a Jupyter notebook cell by id or index; replacing a cell clears stale outputs and execution count.",
+      "name": "NotebookEdit",
+      "parameters": {
+        "additionalProperties": false,
+        "properties": {
+          "cell_id": {
+            "type": "string"
+          },
+          "cell_index": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "cell_type": {
+            "default": "code",
+            "enum": [
+              "code",
+              "markdown",
+              "raw"
+            ],
+            "type": "string"
+          },
+          "edit_mode": {
+            "default": "replace",
+            "enum": [
+              "replace",
+              "insert",
+              "delete"
+            ],
+            "type": "string"
+          },
+          "new_source": {
+            "type": "string"
+          },
+          "notebook_path": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "notebook_path"
+        ],
+        "type": "object"
+      }
+    },
+    "group": "files",
+    "name": "NotebookEdit",
+    "state": "ready"
+  },
+  {
+    "function": {
+      "description": "Find paths by glob pattern, bounded and sorted; optional ignore support.",
+      "name": "Glob",
+      "parameters": {
+        "additionalProperties": false,
+        "properties": {
+          "limit": {
+            "default": 100,
+            "maximum": 500,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "path": {
+            "default": ".",
+            "type": "string"
+          },
+          "pattern": {
+            "type": "string"
+          },
+          "respect_ignore": {
+            "default": false,
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "pattern"
+        ],
+        "type": "object"
+      }
+    },
+    "group": "files",
+    "name": "Glob",
+    "state": "ready"
+  },
+  {
+    "function": {
+      "description": "Search file contents with regex and bounded results; ignores binary files and respects .gitignore by default.",
+      "name": "Grep",
+      "parameters": {
+        "additionalProperties": false,
+        "properties": {
+          "case_sensitive": {
+            "default": true,
+            "type": "boolean"
+          },
+          "glob": {
+            "type": "string"
+          },
+          "limit": {
+            "default": 100,
+            "maximum": 500,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "mode": {
+            "default": "files_with_matches",
+            "enum": [
+              "files_with_matches",
+              "content",
+              "count"
+            ],
+            "type": "string"
+          },
+          "path": {
+            "default": ".",
+            "type": "string"
+          },
+          "pattern": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "pattern"
+        ],
+        "type": "object"
+      }
+    },
+    "group": "files",
+    "name": "Grep",
+    "state": "ready"
+  },
+  {
+    "function": {
+      "description": "Run one shell command in the project workspace with timeout, bounded output and explicit permission policy.",
+      "name": "Bash",
+      "parameters": {
+        "additionalProperties": false,
+        "properties": {
+          "command": {
+            "type": "string"
+          },
+          "run_in_background": {
+            "default": false,
+            "type": "boolean"
+          },
+          "timeout_ms": {
+            "default": 120000,
+            "maximum": 600000,
+            "minimum": 100,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "command"
+        ],
+        "type": "object"
+      }
+    },
+    "group": "execution",
+    "name": "Bash",
+    "state": "ready"
+  },
+  {
+    "function": {
+      "description": "Run PowerShell commands on Windows hosts. This Linux host reports unsupported.",
+      "name": "PowerShell",
+      "parameters": {
+        "additionalProperties": false,
+        "properties": {
+          "input": {
+            "description": "Tool-specific input; refer to the tool description",
+            "type": "object"
+          }
+        },
+        "required": [],
+        "type": "object"
+      }
+    },
+    "group": "execution",
+    "name": "PowerShell",
+    "state": "deferred"
+  },
+  {
+    "function": {
+      "description": "Poll a background task by task_id and read bounded output from its log.",
+      "name": "Monitor",
+      "parameters": {
+        "additionalProperties": false,
+        "properties": {
+          "limit": {
+            "default": 12000,
+            "maximum": 24000,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "offset": {
+            "default": 0,
+            "minimum": 0,
+            "type": "integer"
+          },
+          "task_id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "task_id"
+        ],
+        "type": "object"
+      }
+    },
+    "group": "execution",
+    "name": "Monitor",
+    "state": "ready"
+  },
+  {
+    "function": {
+      "description": "Spawn a bounded background subagent with independent context and the intersection of parent tool permissions.",
+      "name": "Agent",
+      "parameters": {
+        "additionalProperties": false,
+        "properties": {
+          "description": {
+            "type": "string"
+          },
+          "maxTurns": {
+            "default": 6,
+            "maximum": 12,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "prompt": {
+            "type": "string"
+          },
+          "tools": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "description",
+          "prompt"
+        ],
+        "type": "object"
+      }
+    },
+    "group": "agents",
+    "name": "Agent",
+    "state": "ready"
+  },
+  {
+    "function": {
+      "description": "Send a steering message to a running subagent by agent id; delivered before its next model step.",
+      "name": "SendMessage",
+      "parameters": {
+        "additionalProperties": false,
+        "properties": {
+          "message": {
+            "maxLength": 6000,
+            "type": "string"
+          },
+          "recipient": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "recipient",
+          "message"
+        ],
+        "type": "object"
+      }
+    },
+    "group": "agents",
+    "name": "SendMessage",
+    "state": "ready"
+  },
+  {
+    "function": {
+      "description": "List subagents owned by the current session, with status, allowed tools and result summary.",
+      "name": "ListAgents",
+      "parameters": {
+        "additionalProperties": false,
+        "properties": {},
+        "required": [],
+        "type": "object"
+      }
+    },
+    "group": "agents",
+    "name": "ListAgents",
+    "state": "ready"
+  },
+  {
+    "function": {
+      "description": "Return a structured report from a subagent run to the parent session and end the child turn.",
+      "name": "SubagentHandback",
+      "parameters": {
+        "additionalProperties": false,
+        "properties": {
+          "report": {
+            "maxLength": 12000,
+            "type": "string"
+          }
+        },
+        "required": [
+          "report"
+        ],
+        "type": "object"
+      }
+    },
+    "group": "agents",
+    "name": "SubagentHandback",
+    "state": "ready"
+  },
+  {
+    "function": {
+      "description": "Launch a bounded parallel workflow of one to six independent agent steps; each step inherits only parent permissions.",
+      "name": "Workflow",
+      "parameters": {
+        "additionalProperties": false,
+        "properties": {
+          "steps": {
+            "items": {
+              "properties": {
+                "description": {
+                  "type": "string"
+                },
+                "maxTurns": {
+                  "maximum": 10,
+                  "minimum": 1,
+                  "type": "integer"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "prompt": {
+                  "type": "string"
+                },
+                "tools": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              },
+              "required": [
+                "prompt"
+              ],
+              "type": "object"
+            },
+            "maxItems": 6,
+            "minItems": 1,
+            "type": "array"
+          },
+          "workflow_name": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "steps"
+        ],
+        "type": "object"
+      }
+    },
+    "group": "agents",
+    "name": "Workflow",
+    "state": "ready"
+  },
+  {
+    "function": {
+      "description": "Create a task in this session task list.",
+      "name": "TaskCreate",
+      "parameters": {
+        "additionalProperties": false,
+        "properties": {
+          "activeForm": {
+            "default": "",
+            "type": "string"
+          },
+          "blockedBy": {
+            "default": [],
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "description": {
+            "default": "",
+            "type": "string"
+          },
+          "subject": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "subject"
+        ],
+        "type": "object"
+      }
+    },
+    "group": "tasks",
+    "name": "TaskCreate",
+    "state": "ready"
+  },
+  {
+    "function": {
+      "description": "Get details for a session task.",
+      "name": "TaskGet",
+      "parameters": {
+        "additionalProperties": false,
+        "properties": {
+          "task_id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "task_id"
+        ],
+        "type": "object"
+      }
+    },
+    "group": "tasks",
+    "name": "TaskGet",
+    "state": "ready"
+  },
+  {
+    "function": {
+      "description": "List session tasks and status.",
+      "name": "TaskList",
+      "parameters": {
+        "additionalProperties": false,
+        "properties": {},
+        "required": [],
+        "type": "object"
+      }
+    },
+    "group": "tasks",
+    "name": "TaskList",
+    "state": "ready"
+  },
+  {
+    "function": {
+      "description": "Update task status, description or dependencies.",
+      "name": "TaskUpdate",
+      "parameters": {
+        "additionalProperties": false,
+        "properties": {
+          "add_blocked_by": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "add_blocks": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "description": {
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "pending",
+              "in_progress",
+              "completed",
+              "deleted"
+            ],
+            "type": "string"
+          },
+          "subject": {
+            "type": "string"
+          },
+          "task_id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "task_id"
+        ],
+        "type": "object"
+      }
+    },
+    "group": "tasks",
+    "name": "TaskUpdate",
+    "state": "ready"
+  },
+  {
+    "function": {
+      "description": "Read the result and status of a background agent task.",
+      "name": "TaskOutput",
+      "parameters": {
+        "additionalProperties": false,
+        "properties": {
+          "input": {
+            "description": "Tool-specific input; refer to the tool description",
+            "type": "object"
+          }
+        },
+        "required": [],
+        "type": "object"
+      }
+    },
+    "group": "tasks",
+    "name": "TaskOutput",
+    "state": "ready"
+  },
+  {
+    "function": {
+      "description": "Cancel a running background agent task by ID.",
+      "name": "TaskStop",
+      "parameters": {
+        "additionalProperties": false,
+        "properties": {
+          "input": {
+            "description": "Tool-specific input; refer to the tool description",
+            "type": "object"
+          }
+        },
+        "required": [],
+        "type": "object"
+      }
+    },
+    "group": "tasks",
+    "name": "TaskStop",
+    "state": "ready"
+  },
+  {
+    "function": {
+      "description": "Replace the session checklist with an ordered set of items.",
+      "name": "TodoWrite",
+      "parameters": {
+        "additionalProperties": false,
+        "properties": {
+          "todos": {
+            "items": {
+              "properties": {
+                "activeForm": {
+                  "type": "string"
+                },
+                "content": {
+                  "type": "string"
+                },
+                "status": {
+                  "enum": [
+                    "pending",
+                    "in_progress",
+                    "completed"
+                  ],
+                  "type": "string"
+                }
+              },
+              "required": [
+                "content",
+                "status"
+              ],
+              "type": "object"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "todos"
+        ],
+        "type": "object"
+      }
+    },
+    "group": "tasks",
+    "name": "TodoWrite",
+    "state": "ready"
+  },
+  {
+    "function": {
+      "description": "Switch the session to read-only planning mode.",
+      "name": "EnterPlanMode",
+      "parameters": {
+        "additionalProperties": false,
+        "properties": {},
+        "required": [],
+        "type": "object"
+      }
+    },
+    "group": "planning",
+    "name": "EnterPlanMode",
+    "state": "ready"
+  },
+  {
+    "function": {
+      "description": "Submit the proposed plan for approval and leave planning mode.",
+      "name": "ExitPlanMode",
+      "parameters": {
+        "additionalProperties": false,
+        "properties": {},
+        "required": [],
+        "type": "object"
+      }
+    },
+    "group": "planning",
+    "name": "ExitPlanMode",
+    "state": "ready"
+  },
+  {
+    "function": {
+      "description": "Create an isolated Git worktree and scope subsequent file/shell operations in this session to it.",
+      "name": "EnterWorktree",
+      "parameters": {
+        "additionalProperties": false,
+        "properties": {
+          "branch": {
+            "description": "Optional new or existing branch; blank creates harness/<id>",
+            "type": "string"
+          }
+        },
+        "required": [],
+        "type": "object"
+      }
+    },
+    "group": "planning",
+    "name": "EnterWorktree",
+    "state": "ready"
+  },
+  {
+    "function": {
+      "description": "Return this session to the original workspace without deleting the preserved worktree.",
+      "name": "ExitWorktree",
+      "parameters": {
+        "additionalProperties": false,
+        "properties": {},
+        "required": [],
+        "type": "object"
+      }
+    },
+    "group": "planning",
+    "name": "ExitWorktree",
+    "state": "ready"
+  },
+  {
+    "function": {
+      "description": "Create an approved one-shot or recurring scheduled prompt. Scheduled runs have read-only tool access and results are retained in the schedule list.",
+      "name": "CronCreate",
+      "parameters": {
+        "additionalProperties": false,
+        "properties": {
+          "delay_seconds": {
+            "default": 60,
+            "maximum": 2592000,
+            "minimum": 60,
+            "type": "integer"
+          },
+          "interval_seconds": {
+            "default": 0,
+            "maximum": 2592000,
+            "minimum": 0,
+            "type": "integer"
+          },
+          "name": {
+            "default": "Scheduled task",
+            "maxLength": 120,
+            "type": "string"
+          },
+          "prompt": {
+            "maxLength": 8000,
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "prompt"
+        ],
+        "type": "object"
+      }
+    },
+    "group": "schedule",
+    "name": "CronCreate",
+    "state": "ready"
+  },
+  {
+    "function": {
+      "description": "Delete one of the current session's scheduled jobs after approval.",
+      "name": "CronDelete",
+      "parameters": {
+        "additionalProperties": false,
+        "properties": {
+          "job_id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "job_id"
+        ],
+        "type": "object"
+      }
+    },
+    "group": "schedule",
+    "name": "CronDelete",
+    "state": "ready"
+  },
+  {
+    "function": {
+      "description": "List schedules for the current session, including next run time and last execution result.",
+      "name": "CronList",
+      "parameters": {
+        "additionalProperties": false,
+        "properties": {},
+        "required": [],
+        "type": "object"
+      }
+    },
+    "group": "schedule",
+    "name": "CronList",
+    "state": "ready"
+  },
+  {
+    "function": {
+      "description": "Set or clear one read-only autonomous wakeup iteration; there is at most one pending wakeup per session.",
+      "name": "ScheduleWakeup",
+      "parameters": {
+        "additionalProperties": false,
+        "properties": {
+          "action": {
+            "default": "set",
+            "enum": [
+              "set",
+              "clear"
+            ],
+            "type": "string"
+          },
+          "delay_seconds": {
+            "default": 3600,
+            "maximum": 2592000,
+            "minimum": 60,
+            "type": "integer"
+          },
+          "prompt": {
+            "default": "Do a brief read-only check of the workspace and report anything actionable.",
+            "maxLength": 8000,
+            "type": "string"
+          }
+        },
+        "required": [
+          "action"
+        ],
+        "type": "object"
+      }
+    },
+    "group": "schedule",
+    "name": "ScheduleWakeup",
+    "state": "ready"
+  },
+  {
+    "function": {
+      "description": "Trigger a registered remote routine through a configured connector.",
+      "name": "RemoteTrigger",
+      "parameters": {
+        "additionalProperties": false,
+        "properties": {
+          "input": {
+            "description": "Tool-specific input; refer to the tool description",
+            "type": "object"
+          }
+        },
+        "required": [],
+        "type": "object"
+      }
+    },
+    "group": "schedule",
+    "name": "RemoteTrigger",
+    "state": "deferred"
+  },
+  {
+    "function": {
+      "description": "Fetch a public HTTPS URL with DNS/IP checks, redirect blocking and a bounded response size.",
+      "name": "WebFetch",
+      "parameters": {
+        "additionalProperties": false,
+        "properties": {
+          "prompt": {
+            "type": "string"
+          },
+          "url": {
+            "format": "uri",
+            "type": "string"
+          }
+        },
+        "required": [
+          "url",
+          "prompt"
+        ],
+        "type": "object"
+      }
+    },
+    "group": "web",
+    "name": "WebFetch",
+    "state": "ready"
+  },
+  {
+    "function": {
+      "description": "Search public web results and return bounded titles, URLs and snippets.",
+      "name": "WebSearch",
+      "parameters": {
+        "additionalProperties": false,
+        "properties": {
+          "limit": {
+            "default": 5,
+            "maximum": 10,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ],
+        "type": "object"
+      }
+    },
+    "group": "web",
+    "name": "WebSearch",
+    "state": "ready"
+  },
+  {
+    "function": {
+      "description": "Load a local SKILL.md and apply its instructions within current permissions.",
+      "name": "Skill",
+      "parameters": {
+        "additionalProperties": false,
+        "properties": {
+          "args": {
+            "default": "",
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name"
+        ],
+        "type": "object"
+      }
+    },
+    "group": "extensions",
+    "name": "Skill",
+    "state": "ready"
+  },
+  {
+    "function": {
+      "description": "Search the full tool catalogue and load matching ready tools into the active tool list.",
+      "name": "ToolSearch",
+      "parameters": {
+        "additionalProperties": false,
+        "properties": {
+          "limit": {
+            "default": 8,
+            "maximum": 20,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ],
+        "type": "object"
+      }
+    },
+    "group": "extensions",
+    "name": "ToolSearch",
+    "state": "ready"
+  },
+  {
+    "function": {
+      "description": "List resources exposed by explicitly configured MCP stdio servers running in the read-only sandbox.",
+      "name": "ListMcpResourcesTool",
+      "parameters": {
+        "additionalProperties": false,
+        "properties": {
+          "limit": {
+            "default": 20,
+            "maximum": 50,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "server": {
+            "description": "Optional configured server name",
+            "maxLength": 96,
+            "type": "string"
+          }
+        },
+        "required": [],
+        "type": "object"
+      }
+    },
+    "group": "extensions",
+    "name": "ListMcpResourcesTool",
+    "state": "ready"
+  },
+  {
+    "function": {
+      "description": "Read a resource URI from an explicitly configured MCP stdio server in the read-only sandbox.",
+      "name": "ReadMcpResourceTool",
+      "parameters": {
+        "additionalProperties": false,
+        "properties": {
+          "server": {
+            "maxLength": 96,
+            "minLength": 1,
+            "type": "string"
+          },
+          "uri": {
+            "maxLength": 2000,
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "server",
+          "uri"
+        ],
+        "type": "object"
+      }
+    },
+    "group": "extensions",
+    "name": "ReadMcpResourceTool",
+    "state": "ready"
+  },
+  {
+    "function": {
+      "description": "Probe and initialize explicitly configured MCP stdio servers with a bounded startup timeout; each probe is short-lived.",
+      "name": "WaitForMcpServers",
+      "parameters": {
+        "additionalProperties": false,
+        "properties": {},
+        "required": [],
+        "type": "object"
+      }
+    },
+    "group": "extensions",
+    "name": "WaitForMcpServers",
+    "state": "ready"
+  },
+  {
+    "function": {
+      "description": "Use an explicitly configured sandboxed language server for definition, references and diagnostics in workspace files.",
+      "name": "LSP",
+      "parameters": {
+        "additionalProperties": false,
+        "properties": {
+          "character": {
+            "type": "integer"
+          },
+          "file": {
+            "type": "string"
+          },
+          "line": {
+            "type": "integer"
+          },
+          "operation": {
+            "enum": [
+              "definition",
+              "references",
+              "diagnostics"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "operation",
+          "file"
+        ],
+        "type": "object"
+      }
+    },
+    "group": "code",
+    "name": "LSP",
+    "state": "ready"
+  },
+  {
+    "function": {
+      "description": "Ask the user a structured multi-choice question and wait for an answer.",
+      "name": "AskUserQuestion",
+      "parameters": {
+        "additionalProperties": false,
+        "properties": {
+          "questions": {
+            "items": {
+              "properties": {
+                "header": {
+                  "type": "string"
+                },
+                "multiSelect": {
+                  "default": false,
+                  "type": "boolean"
+                },
+                "options": {
+                  "items": {
+                    "properties": {
+                      "description": {
+                        "type": "string"
+                      },
+                      "label": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "label",
+                      "description"
+                    ],
+                    "type": "object"
+                  },
+                  "maxItems": 4,
+                  "minItems": 2,
+                  "type": "array"
+                },
+                "question": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "question",
+                "header",
+                "options",
+                "multiSelect"
+              ],
+              "type": "object"
+            },
+            "maxItems": 4,
+            "minItems": 1,
+            "type": "array"
+          }
+        },
+        "required": [
+          "questions"
+        ],
+        "type": "object"
+      }
+    },
+    "group": "interaction",
+    "name": "AskUserQuestion",
+    "state": "ready"
+  },
+  {
+    "function": {
+      "description": "Send a short notification through the active HUD; browser notifications honor the user's preference and permission.",
+      "name": "PushNotification",
+      "parameters": {
+        "additionalProperties": false,
+        "properties": {
+          "message": {
+            "maxLength": 240,
+            "minLength": 1,
+            "type": "string"
+          },
+          "severity": {
+            "default": "info",
+            "enum": [
+              "info",
+              "success",
+              "warning",
+              "error"
+            ],
+            "type": "string"
+          },
+          "title": {
+            "default": "Thomas",
+            "maxLength": 100,
+            "type": "string"
+          }
+        },
+        "required": [
+          "message"
+        ],
+        "type": "object"
+      }
+    },
+    "group": "interaction",
+    "name": "PushNotification",
+    "state": "ready"
+  },
+  {
+    "function": {
+      "description": "Offer an existing file inside the workspace to the HUD as a deliverable; blocks traversal and files over 25 MiB.",
+      "name": "SendUserFile",
+      "parameters": {
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "path": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "path"
+        ],
+        "type": "object"
+      }
+    },
+    "group": "interaction",
+    "name": "SendUserFile",
+    "state": "ready"
+  },
+  {
+    "function": {
+      "description": "Save bounded text/HTML/JSON artifacts atomically inside the project and surface a deliverable event to the HUD.",
+      "name": "Artifact",
+      "parameters": {
+        "additionalProperties": false,
+        "properties": {
+          "content": {
+            "maxLength": 1000000,
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "type": {
+            "enum": [
+              "markdown",
+              "html",
+              "json",
+              "text",
+              "txt"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "content"
+        ],
+        "type": "object"
+      }
+    },
+    "group": "interaction",
+    "name": "Artifact",
+    "state": "ready"
+  },
+  {
+    "function": {
+      "description": "Validate and return bounded structured code-review findings with workspace-relative file paths.",
+      "name": "ReportFindings",
+      "parameters": {
+        "additionalProperties": false,
+        "properties": {
+          "findings": {
+            "items": {
+              "type": "object"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "findings"
+        ],
+        "type": "object"
+      }
+    },
+    "group": "interaction",
+    "name": "ReportFindings",
+    "state": "ready"
+  },
+  {
+    "function": {
+      "description": "Create a downloadable feedback draft in the HUD for explicit user review; it is not submitted externally.",
+      "name": "SendFeedback",
+      "parameters": {
+        "additionalProperties": false,
+        "properties": {
+          "category": {
+            "default": "other",
+            "enum": [
+              "bug",
+              "idea",
+              "experience",
+              "other"
+            ],
+            "type": "string"
+          },
+          "context": {
+            "default": "",
+            "maxLength": 4000,
+            "type": "string"
+          },
+          "feedback": {
+            "maxLength": 12000,
+            "minLength": 1,
+            "type": "string"
+          },
+          "subject": {
+            "default": "Feedback sobre o Harness",
+            "maxLength": 180,
+            "type": "string"
+          }
+        },
+        "required": [
+          "feedback"
+        ],
+        "type": "object"
+      }
+    },
+    "group": "interaction",
+    "name": "SendFeedback",
+    "state": "ready"
+  },
+  {
+    "function": {
+      "description": "Generate a downloadable onboarding guide surfaced in the HUD; external sharing needs a configured collaboration provider.",
+      "name": "ShareOnboardingGuide",
+      "parameters": {
+        "additionalProperties": false,
+        "properties": {
+          "audience": {
+            "default": "novo usuário",
+            "maxLength": 120,
+            "type": "string"
+          },
+          "format": {
+            "default": "markdown",
+            "enum": [
+              "markdown",
+              "html"
+            ],
+            "type": "string"
+          },
+          "include_quickstart": {
+            "default": true,
+            "type": "boolean"
+          }
+        },
+        "required": [],
+        "type": "object"
+      }
+    },
+    "group": "interaction",
+    "name": "ShareOnboardingGuide",
+    "state": "ready"
+  },
+  {
+    "function": {
+      "description": "End the current session when the user requests it.",
+      "name": "EndConversation",
+      "parameters": {
+        "additionalProperties": false,
+        "properties": {},
+        "required": [],
+        "type": "object"
+      }
+    },
+    "group": "interaction",
+    "name": "EndConversation",
+    "state": "ready"
+  },
+  {
+    "function": {
+      "description": "Search persistent long-term memory within the requested scope; returns bounded matches.",
+      "name": "MemorySearch",
+      "parameters": {
+        "additionalProperties": false,
+        "properties": {
+          "limit": {
+            "default": 10,
+            "maximum": 30,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "query": {
+            "maxLength": 1000,
+            "minLength": 1,
+            "type": "string"
+          },
+          "scope": {
+            "default": "current_project",
+            "maxLength": 160,
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ],
+        "type": "object"
+      }
+    },
+    "group": "memory",
+    "name": "MemorySearch",
+    "state": "ready"
+  },
+  {
+    "function": {
+      "description": "Save a fact the user explicitly stated or confirmed; rejects obvious secrets and sensitive credentials.",
+      "name": "MemorySave",
+      "parameters": {
+        "additionalProperties": false,
+        "properties": {
+          "confidence": {
+            "default": 0.9,
+            "maximum": 1,
+            "minimum": 0,
+            "type": "number"
+          },
+          "importance": {
+            "default": 0.8,
+            "maximum": 1,
+            "minimum": 0,
+            "type": "number"
+          },
+          "kind": {
+            "default": "fact",
+            "maxLength": 64,
+            "type": "string"
+          },
+          "scope": {
+            "default": "current_project",
+            "maxLength": 160,
+            "type": "string"
+          },
+          "text": {
+            "maxLength": 4000,
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "text"
+        ],
+        "type": "object"
+      }
+    },
+    "group": "memory",
+    "name": "MemorySave",
+    "state": "ready"
+  },
+  {
+    "function": {
+      "description": "Permanently delete a saved memory by numeric id and update the full-text index.",
+      "name": "MemoryForget",
+      "parameters": {
+        "additionalProperties": false,
+        "properties": {
+          "memory_id": {
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "memory_id"
+        ],
+        "type": "object"
+      }
+    },
+    "group": "memory",
+    "name": "MemoryForget",
+    "state": "ready"
+  },
+  {
+    "function": {
+      "description": "Apply a unified diff to files inside the workspace after reading the target files in this session.",
+      "name": "ApplyPatch",
+      "parameters": {
+        "additionalProperties": false,
+        "properties": {
+          "patch": {
+            "maxLength": 100000,
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "patch"
+        ],
+        "type": "object"
+      }
+    },
+    "group": "files",
+    "name": "ApplyPatch",
+    "state": "ready"
+  }
+]

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Thomas Mobile Agent</string>
+    <string name="accessibility_description">Permite que Thomas controle este aparelho após autorização explícita.</string>
+</resources>

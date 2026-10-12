@@ -1,0 +1,16 @@
+node_modules/
+secrets/
+.env
+.env.*
+*.log
+*.pid
+*.key
+*.pem
+*.p12
+*.pfx
+*.jks
+*.keystore
+sessions.json
+public-auth.json
+public-sessions.json
+agent.token

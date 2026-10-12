@@ -1,0 +1,21 @@
+{
+  "name": "thomas-mobile-agent-relay",
+  "version": "0.5.3",
+  "private": true,
+  "description": "Self-hosted WebSocket relay, authenticated TLS gateway and MCP adapter for Thomas Mobile Agent",
+  "main": "server/server.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "start:public": "node server/public-ws-proxy.js",
+    "mcp": "node mcp-server.mjs",
+    "setup-auth": "node scripts/setup-auth.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "1.32.1",
+    "ws": "8.22.0",
+    "zod": "4.4.3"
+  }
+}

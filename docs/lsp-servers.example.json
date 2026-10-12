@@ -1,0 +1,18 @@
+{
+  "servers": [
+    {
+      "name": "rust-analyzer",
+      "command": "/usr/bin/rust-analyzer",
+      "args": [],
+      "extensions": ["rs"],
+      "enabled": true
+    },
+    {
+      "name": "typescript-language-server",
+      "command": "/usr/local/bin/typescript-language-server",
+      "args": ["--stdio"],
+      "extensions": ["ts", "tsx", "js", "jsx"],
+      "enabled": true
+    }
+  ]
+}
