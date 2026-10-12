@@ -2,19 +2,33 @@
 
 # 👋 Opa! Eu sou Samuel
 
-### Construindo o Thomas — um assistente-agente, não só um chatbot.
+### Estou construindo o **Thomas — um assistente-agente de IA open-source**
 
-Trabalho no **[Harness-RS](https://github.com/sl7187855-coder/harness-rs)**, um runtime de agentes em Rust, e no **Thomas Mobile Agent** para Android.
+**Não é só um harness.** É um projeto integrado que reúne um agente em desenvolvimento, o runtime Rust Harness-RS, uma HUD web e o Thomas Mobile Agent para Android. O objetivo é evoluir de conversas para tarefas com ferramentas, contexto persistente e autonomia com limites de segurança.
 
 [![Harness-RS CI](https://github.com/sl7187855-coder/harness-rs/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/sl7187855-coder/harness-rs/actions/workflows/ci.yml)
 [![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](https://github.com/sl7187855-coder/harness-rs/blob/main/LICENSE)
 [![Help wanted](https://img.shields.io/badge/contributors-needed-brightgreen.svg)](https://github.com/sl7187855-coder/harness-rs/issues/1)
 
-**[🚀 Ver o projeto](https://github.com/sl7187855-coder/harness-rs) · [🤝 Contribuir](https://github.com/sl7187855-coder/harness-rs/issues/1) · [📱 APK 0.5.3](https://github.com/sl7187855-coder/harness-rs/releases/tag/mobile-agent-v0.5.3)**
+**[🚀 Projeto completo](https://github.com/sl7187855-coder/harness-rs) · [🖥️ HUD Web](https://github.com/sl7187855-coder/harness-rs/blob/main/web/thomas-hud.html) · [📱 Agente Android](https://github.com/sl7187855-coder/harness-rs/releases/tag/mobile-agent-v0.5.3) · [🤝 Contribuir](https://github.com/sl7187855-coder/harness-rs/issues/1)**
+
+<img src="https://raw.githubusercontent.com/sl7187855-coder/harness-rs/main/assets/thomas-system-map.svg" alt="Diagrama do sistema Thomas: HUD Web, Harness-RS, agente Android, modelo, ferramentas, contexto, memória, aprovações e auditoria." width="100%"/>
+
+<sub>Early alpha · visão integrada, com limitações e tarefas de validação documentadas publicamente.</sub>
 
 </div>
 
 ---
+
+## 🧩 As partes em conjunto
+
+| Parte | Para que serve |
+|---|---|
+| **Thomas — assistente/agente** | A visão do produto: planejar, usar ferramentas, acompanhar e verificar tarefas. |
+| **Harness-RS (Rust)** | Runtime, loop do agente, gateway, políticas e execução de ferramentas. |
+| **HUD Web** | Interface para conversar com o runtime e acompanhar eventos. |
+| **Contexto, memória e tarefas** | Estado persistente e continuidade de trabalho, com recursos avançados ainda em evolução. |
+| **Thomas Mobile Agent** | App Android e componentes de integração móvel; teste físico ainda precisa ser revalidado. |
 
 ## 🧠 A visão do Thomas
 
