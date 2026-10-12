@@ -1,10 +1,10 @@
 <div align="center">
 
-# 🧠 Thomas · Harness-RS
+# 🧠 Thomas — Assistente-agente de IA
 
-### Mais que conversar. A meta é agir, acompanhar e aprender com a experiência.
+### Um projeto integrado: **agente + Harness-RS + HUD Web + Android**
 
-**Um runtime de agente em Rust para construir um assistente pessoal capaz de usar ferramentas, manter contexto e avançar em tarefas longas — com memória, aprovações e limites de segurança.**
+**Thomas é o assistente-agente que estamos construindo.** O Harness-RS é o núcleo de execução em Rust; o HUD é a interface web; ferramentas, contexto, memória e tarefas dão suporte ao trabalho; e o Thomas Mobile Agent leva uma parte da experiência ao Android.
 
 [![CI](https://github.com/sl7187855-coder/harness-rs/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/sl7187855-coder/harness-rs/actions/workflows/ci.yml)
 [![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
@@ -12,9 +12,30 @@
 ![Platform](https://img.shields.io/badge/target-Linux%20x86--64-lightgrey?logo=linux)
 ![Help wanted](https://img.shields.io/badge/contributions-welcome-brightgreen.svg)
 
-**[🚀 Código](https://github.com/sl7187855-coder/harness-rs) · [📱 Thomas Mobile Agent 0.5.3](https://github.com/sl7187855-coder/harness-rs/releases/tag/mobile-agent-v0.5.3) · [🤝 Contribua](https://github.com/sl7187855-coder/harness-rs/issues/1) · [🟢 Tarefas para iniciantes](https://github.com/sl7187855-coder/harness-rs/labels/good%20first%20issue)**
+**[🧭 Visão geral](#-um-sistema-integrado) · [🖥️ HUD Web (código)](web/thomas-hud.html) · [🦀 Runtime](src) · [📱 Android](mobile/README.md) · [🏗️ Arquitetura](docs/ARCHITECTURE.md) · [🤝 Contribua](https://github.com/sl7187855-coder/harness-rs/issues/1)**
+
+<img src="assets/thomas-system-map.svg" alt="Mapa visual do Thomas: HUD Web e companheiro Android, núcleo Harness-RS, modelo, ferramentas, memória persistente, aprovações, sandbox e auditoria." width="100%"/>
+
+<sub>Projeto em early alpha: a visão é integrada, mas algumas integrações ainda exigem validação e desenvolvimento.</sub>
 
 </div>
+
+---
+
+## 🌐 Um sistema integrado
+
+O Thomas não é só o Harness-RS isolado. A ideia é construir um sistema coerente em que cada parte tenha um papel:
+
+| Parte | Papel no sistema | Estado honesto |
+|---|---|---|
+| **Thomas · assistente/agente** | Recebe objetivos, organiza passos, utiliza ferramentas e verifica resultados | Visão do produto; autonomia de longa duração ainda está em evolução |
+| **Harness-RS** | Runtime Rust, loop do agente, gateway HTTP/SSE, políticas e despacho de ferramentas | Núcleo funcional em early alpha |
+| **HUD Web** | Interface web para conversar e acompanhar eventos/estado do runtime | Código incluído em [web/thomas-hud.html](web/thomas-hud.html); gateway ainda tem lacunas de autenticação |
+| **Contexto, memória e tarefas** | Mantém histórico e estado persistente com SQLite e arquivos de instrução/skills | Base implementada; recursos avançados e consolidação continuam em desenvolvimento |
+| **Thomas Mobile Agent** | App Android, relay, CLI e adaptador MCP relacionados ao projeto | APK de teste disponível; conexão e instalação em aparelho físico precisam ser revalidadas |
+| **Ferramentas e extensões** | Arquivos, Bash, políticas de execução e integrações parciais MCP/LSP | Cobertura mista; confira [PROJECT_STATUS.md](docs/PROJECT_STATUS.md) |
+
+Comece por aqui se quer **entender o produto como um todo**. Para compilar e executar o núcleo, siga o Quick Start abaixo. Para saber exatamente o que funciona e o que falta, consulte o [estado do projeto](docs/PROJECT_STATUS.md).
 
 ---
 
