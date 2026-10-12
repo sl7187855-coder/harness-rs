@@ -1,6 +1,13 @@
-# 🤝 Contribuindo com Harness-RS e Thomas
+# 🤝 Contribuindo com o Thomas: agente + Harness-RS + HUD Web + Android
 
-Obrigado por querer ajudar! Thomas é a visão de um assistente-agente que consegue conduzir tarefas longas, usar ferramentas, persistir contexto, aprender com resultados e melhorar com novas versões. O runtime ainda está em early alpha e várias partes precisam de testes, revisão e implementação.
+Obrigado por querer ajudar! **Thomas é o projeto integrado; Harness-RS é seu runtime em Rust.** O conjunto também inclui a HUD Web e o Thomas Mobile Agent para Android. A visão é um assistente-agente que consiga conduzir tarefas longas, usar ferramentas, persistir contexto e memória, verificar resultados e melhorar a partir de resultados registrados e feedback. O projeto está em early alpha: algumas integrações e capacidades ainda precisam de testes, revisão e implementação.
+
+## 🧭 Mapa rápido do projeto
+
+- **Núcleo / runtime:** [src/](src) — loop do agente, ferramentas, políticas e gateway.
+- **HUD Web:** [web/thomas-hud.html](web/thomas-hud.html) — interface do runtime.
+- **Companheiro Android:** [mobile/README.md](mobile/README.md) — app e instruções de build/teste.
+- **Estado, lacunas e arquitetura:** [PROJECT_STATUS.md](docs/PROJECT_STATUS.md) · [ARCHITECTURE.md](docs/ARCHITECTURE.md).
 
 ## 🥔 Por que a sua ajuda é importante
 

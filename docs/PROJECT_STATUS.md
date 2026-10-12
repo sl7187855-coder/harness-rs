@@ -1,6 +1,8 @@
-# Project status and roadmap
+# Thomas — project status and roadmap
 
-Last source-tree status documented: 2026-10-12. This is a community snapshot, not a guarantee about the current state of every deployment.
+This status covers the integrated Thomas project: the assistant/agent, **Harness-RS** Rust runtime, **Web HUD**, Android companion, and related integration services. The runtime is the execution core; the other components form the broader user-facing system.
+
+Last source-tree status documented: 2026-10-12. This is a community snapshot, not a guarantee about the current state of every deployment. Items marked as implemented can still have provider-, platform-, security-, or conformance-specific gaps.
 
 ## What exists today
 

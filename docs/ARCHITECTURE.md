@@ -1,4 +1,8 @@
-# Architecture
+# Thomas system architecture
+
+Thomas is the integrated project: an AI assistant/agent, the Rust **Harness-RS** runtime, a **Web HUD**, and the **Thomas Mobile Agent** for Android. This document focuses on the core runtime and its trust boundaries; the Android package and mobile integration notes live in [mobile/README.md](../mobile/README.md).
+
+The system is early alpha. The presence of a component or protocol adapter does not imply full conformance; verified behavior and remaining gaps are tracked in [PROJECT_STATUS.md](PROJECT_STATUS.md).
 
 ## Process model
 
