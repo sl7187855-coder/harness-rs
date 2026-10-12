@@ -75,4 +75,13 @@ The public source snapshot now includes the Android app, the private relay, the 
 - The Android build does not embed a live server certificate. System CA verification is the default. The relay's default bind addresses are loopback; the APK endpoint returns 404 unless the operator explicitly configures a verified artifact path.
 - Relay runtime token creation uses a random 256-bit token with file mode 0600. The bootstrap command prompts for the relay username and password without echo and stores a salted scrypt hash in a private auth file. Tokens, sessions, TLS keys/certs, auth files, APK build intermediates and node_modules remain excluded from Git.
 - Source syntax passed node --check on the relay, gateway, MCP adapter and auth bootstrap. Full runtime/on-device conformance has not yet been completed because the phone app was uninstalled; the publication includes reproducible build/test instructions, not a claim that the handset has been retested.
-- Profile README and Bio text are staged in profile-readme/README.md and GITHUB_PROFILE_SETUP.md. The profile README still needs its own public repository named exactly the account login before GitHub will display it.
+- The public profile README is published from the repository named exactly `sl7187855-coder`; the profile Bio and pinned repository settings are managed on the GitHub account. The profile README and repository README include the low-resource hardware context and contributor callouts.
+
+
+## Maintainer hardware and community plan — 2026-10-12
+
+The maintainer machine was inspected directly: Positivo Informática EC10IS1, Intel Atom N2600 @ 1.60 GHz, 2 physical cores/4 threads, approximately 2 GiB RAM detected by Linux, antiX/Debian 13, x86-64. The BIOS date field reports `04/11/2014`; this is a firmware date and not a verified manufacture date.
+
+The maintainer intends to continue publishing updates, but the old low-resource host makes broad device coverage, long soak tests and some builds expensive. The public README now identifies the goals of Thomas as a persistent personal agent for long-running tasks, tool use, memory, lessons from outcomes and feedback. These are goals; automatic model-weight training is not claimed.
+
+The profile README and project README are public. `CONTRIBUTING.md` provides a Quick Start, test commands, security rules and review expectations. Beginner-sized issues use the `good first issue` label, and the contributor graph is linked for public recognition.

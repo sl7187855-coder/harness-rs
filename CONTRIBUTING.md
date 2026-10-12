@@ -1,49 +1,85 @@
-# Contributing to Harness-RS
+# 🤝 Contribuindo com Harness-RS e Thomas
 
-Thanks for considering a contribution. This project needs practical help: the maintainer currently works on a low-resource x86-64 Linux host, where optimized builds and long-running tests consume a disproportionate amount of time and memory. Reproducible tests and reports from other machines are especially valuable.
+Obrigado por querer ajudar! Thomas é a visão de um assistente-agente que consegue conduzir tarefas longas, usar ferramentas, persistir contexto, aprender com resultados e melhorar com novas versões. O runtime ainda está em early alpha e várias partes precisam de testes, revisão e implementação.
 
-## Before opening a pull request
+## 🥔 Por que a sua ajuda é importante
 
-1. Read README.md, docs/PROJECT_STATUS.md, docs/CONFORMANCE.md, and docs/EXTENSIONS.md.
-2. Search existing issues and pull requests so work is not duplicated.
-3. For a behavior change, add or update a test. Prefer deterministic tests with synthetic providers and temporary workspaces.
-4. Keep APIs and tool schemas backward-compatible unless the change explicitly documents a breaking change.
-5. Do not weaken default permissions, sandbox boundaries, audit integrity, or fail-closed behavior to make a test pass.
+O mantenedor desenvolve numa máquina Positivo EC10IS1 antiga, com Intel Atom N2600 @ 1,60 GHz, 2 núcleos/4 threads e cerca de 2 GiB de RAM. Builds de release e testes prolongados demoram e não é possível cobrir sozinho todos os provedores, distribuições Linux, integrações e aparelhos Android. Relatos reproduzíveis de outras máquinas são especialmente valiosos.
 
-## Development checks
+**Vou continuar publicando correções e atualizações; a contribuição da comunidade ajuda a acelerar a qualidade, a cobertura e a segurança.**
 
-Run what is available on your machine:
+## 🚀 Quick Start para desenvolvimento
 
-~~~sh
-cargo fmt --check
-CARGO_BUILD_JOBS=1 cargo test --locked --all-targets
-CARGO_BUILD_JOBS=1 cargo clippy --locked --all-targets
-python3 -m py_compile tests/e2e/*.py
-bash -n scripts/deploy.sh
-sh -n scripts/test.sh
-python3 scripts/check_inline_js.py web/thomas-hud.html
-~~~
+1. Instale Git, Rust estável (1.88+ / edition 2024), `rustfmt`, `clippy`, um toolchain C e as dependências de sistema exigidas pelo Cargo. Para as verificações do HUD, instale Python 3 e Node.js.
+2. Clone o repositório e entre na pasta:
 
-If resources are limited, run focused Rust tests first and report the exact command and result. The CI workflow is the shared full check. Never point tests at a production service.
+   ~~~sh
+   git clone https://github.com/sl7187855-coder/harness-rs.git
+   cd harness-rs
+   rustup update stable
+   rustup component add rustfmt clippy
+   ~~~
 
-## Good areas for contributors
+3. Execute as verificações básicas em sequência. Em máquinas fracas, use um job de build por vez:
 
-- **Security:** gateway authentication/session cookies, adversarial prompt-injection tests, private-file boundaries, safer error handling, audit rotation design.
-- **Tool conformance:** positive and negative tests for every tool; WebSearch results; successful public HTTPS WebFetch; valid child-originated SubagentHandback.
-- **Extensions:** real MCP/LSP integrations; a well-defined optional TypeScript/Cordis host; plugin lifecycle and permission review.
-- **Memory and orchestration:** advanced memory/ACP work, context efficiency, cancellations, parallel agent lifecycle, long-run stability.
-- **Performance:** benchmark provider-independent paths, quantify RAM under controlled workloads, improve compile time on weak CPUs.
-- **Docs and portability:** installation paths, Linux distribution coverage, generic service packaging, clear examples.
-- **Hardware testing:** build/test on other x86-64 machines, systems with different kernels, and low-RAM systems.
+   ~~~sh
+   cargo fmt --check
+   CARGO_BUILD_JOBS=1 cargo test --locked --all-targets
+   CARGO_BUILD_JOBS=1 cargo clippy --locked --all-targets
+   python3 -m py_compile tests/e2e/*.py scripts/check_inline_js.py
+   bash -n scripts/deploy.sh
+   sh -n scripts/test.sh
+   python3 scripts/check_inline_js.py web/thomas-hud.html
+   ~~~
 
-## Pull request expectations
+4. Para iniciar o HUD local, use a seção **Quick Start** do [README principal](README.md). Configure credenciais de provedor no seu ambiente privado; elas não devem ir para o Git.
+5. Consulte [PROJECT_STATUS.md](docs/PROJECT_STATUS.md), [CONFORMANCE.md](docs/CONFORMANCE.md) e as issues existentes antes de começar.
 
-- Explain the problem, the chosen approach, and important alternatives.
-- Include tests, outputs, and relevant platform details.
-- Identify whether a test used a mocked model, a real provider, or no model.
-- Do not include API keys, access tokens, private hostnames/IPs, private workspace paths, personal logs, databases, or release binaries.
-- Keep each PR focused. Split large refactors into reviewable steps.
-- Update docs/CONFORMANCE.md only when the named test was actually run and passed.
-- Do not claim full Claude Code/Codex compatibility merely because a tool name exists in the catalog.
+## 🌱 Primeiras contribuições
 
-By sending a contribution, you agree that it is submitted under the repository's Apache-2.0 license, subject to that license's terms.
+Procure issues com a etiqueta [`good first issue`](https://github.com/sl718785-coder/harness-rs/labels/good%20first%20issue). São tarefas pequenas e delimitadas para ajudar quem está começando. Se nenhuma servir, comente na [issue de chamada à comunidade](https://github.com/sl718785-coder/harness-rs/issues/1) ou abra uma nova issue descrevendo a ideia.
+
+Áreas prioritárias:
+
+- Documentação de instalação, exemplos e solução de problemas.
+- Testes determinísticos sem chave API, usando mocks e pastas temporárias.
+- Builds e regressões em outras versões do Linux / hardware x86-64.
+- Segurança do gateway, aprovações, sandbox e auditoria.
+- Testes de ferramentas/provedores, MCP/LSP e validação do Android em dispositivos reais.
+- Benchmarks reproduzíveis de RAM, tempo de compilação e workloads longos.
+
+## ✅ Regras para issues e pull requests
+
+1. **Procure antes:** verifique issues e PRs existentes para evitar trabalho duplicado.
+2. **Explique a mudança:** descreva o problema, a solução e o comportamento esperado.
+3. **Teste quando possível:** adicione ou atualize testes. Inclua os comandos executados e os resultados reais.
+4. **Diga o tipo de evidência:** informe se testou com mock, provedor real de staging, aparelho físico ou apenas revisão de código.
+5. **PRs pequenos são melhores:** uma mudança focada é mais simples de rever. Atualize docs quando comportamento ou comandos mudarem.
+6. **Não enfraqueça a segurança:** não remova aprovações, isolamento ou fail-closed para fazer uma verificação passar.
+7. **Se não puder rodar tudo, diga isso:** logs claros e limitados são melhores do que afirmar que testes não executados passaram.
+8. **Não alegue paridade total:** a existência de um nome no catálogo não significa conformidade funcional independente.
+
+## 🔐 Segredos e dados pessoais
+
+Nunca envie em issues ou PRs:
+
+- Chaves API, tokens, senhas ou cookies.
+- IPs/URLs privados, chaves privadas, certificados de produção ou arquivos de autenticação.
+- Bancos SQLite locais, históricos pessoais, logs sem sanitização ou dados identificáveis de dispositivos.
+- Arquivos `.env`, settings privados, builds locais e backups.
+
+Vulnerabilidades devem ser relatadas conforme o procedimento privado em [SECURITY.md](SECURITY.md), não numa issue pública. Não exponha o gateway de execução à internet sem autenticação e revisão de segurança independentes.
+
+## 🧾 Padrões do projeto
+
+- Preserve o comportamento existente, a compatibilidade dos schemas e o modo seguro por padrão.
+- Use testes determinísticos e credenciais sintéticas sempre que possível.
+- Não atualize `docs/CONFORMANCE.md` para declarar um teste aprovado se ele não foi executado.
+- Evite dependências novas quando uma solução pequena existente servir.
+- Documente comandos e limitações que dependem da distribuição ou do hardware.
+
+## 🏆 Agradecimentos
+
+Agradecemos todas as pessoas que ajudam com código, testes, revisão, documentação e relatos de bugs. Os contribuidores são reconhecidos no [gráfico público do GitHub](https://github.com/sl7187855-coder/harness-rs/graphs/contributors); queremos também agradecer contribuições de teste e documentação nas notas de release quando fizer sentido.
+
+Ao enviar uma contribuição, você concorda que ela será disponibilizada sob a licença Apache-2.0 deste repositório, conforme os termos aplicáveis.
