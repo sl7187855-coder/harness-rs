@@ -14,13 +14,13 @@ jobs:
       CARGO_PROFILE_RELEASE_LTO: off
       CARGO_PROFILE_RELEASE_CODEGEN_UNITS: 16
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - uses: dtolnay/rust-toolchain@stable
         with:
           components: rustfmt, clippy
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
           node-version: 22
 
@@ -52,7 +52,7 @@ jobs:
           grep -Fq 'target-cpu=x86-64' .cargo/config.toml
           file "$BIN" | grep -q 'ELF 64-bit.*x86-64'
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v6
         with:
           name: harness-rs-linux-x86_64-baseline
           path: target/x86_64-unknown-linux-gnu/release/harness-rs
@@ -63,8 +63,8 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 30
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
           node-version: '22'
           cache: npm
@@ -78,7 +78,7 @@ jobs:
           node --check mcp-server.mjs
           node --check scripts/setup-auth.mjs
           npm audit --omit=dev --audit-level=moderate
-      - uses: actions/setup-java@v4
+      - uses: actions/setup-java@v6
         with:
           distribution: temurin
           java-version: '17'
@@ -88,7 +88,7 @@ jobs:
       - name: Build Thomas Mobile Agent 0.5.3
         working-directory: mobile/agent-android
         run: ./gradlew --no-daemon --max-workers=1 assembleDebug
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v6
         with:
           name: thomas-mobile-agent-0.5.3-debug
           path: mobile/agent-android/app/build/outputs/apk/debug/app-debug.apk
